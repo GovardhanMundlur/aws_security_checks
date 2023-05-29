@@ -7,6 +7,7 @@ sns = boto3.client('sns')
 
 snsarn = os.environ['TOPIC_ARN']
 
+## send mail
 def sendemail(subject, message):
     response = sns.publish(
         TopicArn=snsarn,
@@ -15,6 +16,7 @@ def sendemail(subject, message):
     )
     
 def lambda_handler(event, context):
+    ## get all policies only attached
     response = iam.list_policies(
         Scope='All',
         OnlyAttached=True,
@@ -30,10 +32,12 @@ def lambda_handler(event, context):
             perm = x["Action"]
             if isinstance(perm, list):
                 for p in perm:
+                    ## condition to end with wildcard in action
                     if p.endswith("*"):
                         if arn not in arns:
                             arns.append(str(arn))
             else:
+                ## condition to end with wildcard in action
                 if perm.endswith("*"):
                     if arn not in arns:
                         arns.append(str(arn))
