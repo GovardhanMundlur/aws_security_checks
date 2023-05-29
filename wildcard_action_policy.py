@@ -1,10 +1,9 @@
 import json
 import boto3
+import os
 
 iam = boto3.client('iam')
 sns = boto3.client('sns')
-
-arns=[]
 
 snsarn = os.environ['TOPIC_ARN']
 
@@ -20,6 +19,7 @@ def lambda_handler(event, context):
         Scope='All',
         OnlyAttached=True,
         )
+    arns=[]
     for i in response["Policies"]:
         arn = i["Arn"]
         pol_d = iam.get_policy_version(
