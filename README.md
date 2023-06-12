@@ -1,6 +1,7 @@
 # This project contains automated scripts to perform security checks on AWS IAM and VPC.
 
 All scripts are written for AWS lambda function, to make it easier for execution. If your requirement exceeds execution more then 15mins, please modify the script and run on machine.
+
 List of scripts:
 
 - getpublic_sgs.py - Gets the list of security groups which are open to public.
